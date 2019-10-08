@@ -3,12 +3,9 @@ require 'rails_helper'
 RSpec.describe 'Users', type: :system do
   describe 'ログイン' do
     context '正常系' do
-      let!(:user) { create(:user) }
+      let(:user) { create(:user) }
       it 'ログインが成功すること' do
-        visit login_path
-        fill_in 'email', with: user.email
-        fill_in 'password', with: 'password'
-        click_button 'Login'
+        login_as(user)
         expect(page).to have_content 'Login successful'
       end
     end
@@ -22,7 +19,7 @@ RSpec.describe 'Users', type: :system do
   end
   describe 'サインアップ' do
     context '正常系' do
-      let!(:user) { build(:user) }
+      let(:user) { build(:user) }
       it 'ユーザーの新規作成、編集、削除ができること' do
         visit sign_up_path
         fill_in 'user_email', with: user.email
