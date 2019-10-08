@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[show edit update destroy]
+  before_action :verify_access, only: %i[edit update destroy]
   skip_before_action :require_login, only: %i[index show]
 
   def index
@@ -45,5 +46,9 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :content, :status, :deadline)
+  end
+
+  def verify_access
+    redirect_to root_url, alert: 'Forbidden access.' unless current_user.my_object?(@task)
   end
 end
