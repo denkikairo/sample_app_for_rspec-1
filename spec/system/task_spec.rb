@@ -35,7 +35,7 @@ RSpec.describe 'Users', type: :system do
     context '異常系' do
       let(:user) { create(:user) }
       let(:task) { build(:task) }
-      let!(:task_created){ create(:task, :user_id => user.id) }
+      let!(:task_created){ create(:task, user_id: user.id) }
       it 'ログインしていない状態でタスクの新規作成に遷移できない' do
         visit new_task_path
         expect(page).to have_content 'Login required'
@@ -55,22 +55,19 @@ RSpec.describe 'Users', type: :system do
     let(:user_another) { create(:user, email: 'another@gmail.com') }
     let!(:task){ create(:task, :user_id => user.id) }
     # login
-    before do
-      login_as(user)
-    end
     context '正常系' do
       it 'マイページにユーザーが新規作成したタスクが表示されること' do
+        login_as(user)
         visit user_path(user)
         expect(page).to have_content task.title
         expect(page).to have_content task.status
       end
     end
-    before do
-      login_as(user_another)
-    end
     context '異常系' do
       it 'マイページにユーザーが新規作成したタスクが表示されること' do
-        visit edit_task_path(task_created)
+        login_as(user_another)
+        visit edit_task_path(task)
+        expect(page).to have_content 'Forbidden access.'
       end
     end
   end
