@@ -20,13 +20,24 @@ RSpec.describe 'Users', type: :system do
   describe 'サインアップ' do
     context '正常系' do
       let(:user) { build(:user) }
-      it 'ユーザーの新規作成、編集、削除ができること' do
+      let(:user_created) { create(:user) }
+      it 'ユーザーの新規作成ができること' do
         visit sign_up_path
         fill_in 'user_email', with: user.email
         fill_in 'user_password', with: user.password
         fill_in 'user_password_confirmation', with: user.password_confirmation
         click_button 'SignUp'
         expect(page).to have_content 'User was successfully created.'
+      end
+      it 'ユーザーの編集ができること' do
+        login_as(user_created)
+        visit edit_user_path(user_created)
+        fill_in 'user_email', with: 'updated@gmail.com'
+        fill_in 'user_password', with: 'password'
+        fill_in 'user_password_confirmation', with: 'password'
+        click_button 'SignUp'
+        expect(page).to have_content 'User was successfully updated.'
+        expect(page).to have_content 'updated@gmail.com'
       end
     end
     context '異常系' do
