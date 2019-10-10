@@ -18,6 +18,10 @@ RSpec.describe 'Users', type: :system do
         fill_in 'task_deadline', with: task.deadline
         click_button 'Create Task'
         expect(page).to have_content 'Task was successfully created.'
+        visit tasks_path
+        expect(page).to have_content task.content
+        expect(page).to have_content task.status
+        expect(page).to have_content task.deadline.strftime('%Y/%-m/%-d %-H:%-M')
       end
       it 'ログインした状態でタスクの編集できる' do
         visit edit_task_path(task_created)
