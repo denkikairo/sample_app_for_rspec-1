@@ -5,7 +5,7 @@ RSpec.describe 'Users', type: :system do
     context '正常系' do
       let(:user) { create(:user) }
       let(:task) { build(:task, title: 'task_new') }
-      let!(:task_created){ create(:task, :user_id => user.id) }
+      let!(:task_created){ create(:task, user_id: user.id) }
       # login
       before do
         login_as(user)
@@ -53,7 +53,7 @@ RSpec.describe 'Users', type: :system do
   describe 'タスクの表示' do
     let(:user) { create(:user) }
     let(:user_another) { create(:user, email: 'another@gmail.com') }
-    let!(:task){ create(:task, :user_id => user.id) }
+    let!(:task){ create(:task, user_id: user.id) }
     # login
     context '正常系' do
       it 'マイページにユーザーが新規作成したタスクが表示されること' do
