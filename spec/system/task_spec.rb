@@ -46,17 +46,17 @@ RSpec.describe 'Tasks', type: :system do
       it 'ログインしていない状態でタスクの新規作成に遷移できない' do
         visit new_task_path
         expect(page).to have_content 'Login required'
-        expect(current_path).to eq '/login'
+        expect(current_path).to eq login_path
       end
       it 'ログインしていない状態でタスクの編集に遷移できない' do
         visit edit_task_path(task_created)
         expect(page).to have_content 'Login required'
-        expect(current_path).to eq '/login'
+        expect(current_path).to eq login_path
       end
       it 'ログインしていない状態でタスクのマイページに遷移できない' do
         visit user_path(user)
         expect(page).to have_content 'Login required'
-        expect(current_path).to eq '/login'
+        expect(current_path).to eq login_path
       end
     end
   end
