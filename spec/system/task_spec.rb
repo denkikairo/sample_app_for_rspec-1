@@ -5,7 +5,7 @@ RSpec.describe 'Tasks', type: :system do
     context '正常系' do
       let(:user) { create(:user) }
       let(:task) { build(:task, title: 'task_new') }
-      let!(:task_created){ create(:task, user_id: user.id) }
+      let(:task_created){ create(:task, user_id: user.id) }
       # login
       before do
         login_as(user)
@@ -31,6 +31,7 @@ RSpec.describe 'Tasks', type: :system do
         expect(page).to have_content 'title_updated'
       end
       it 'ログインした状態でタスクの削除できる' do
+        task_created
         visit tasks_path
         click_on 'Destroy'
         page.driver.browser.switch_to.alert.accept
