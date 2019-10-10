@@ -64,7 +64,7 @@ RSpec.describe 'Users', type: :system do
       end
     end
     context '異常系' do
-      it 'マイページにユーザーが新規作成したタスクが表示されること' do
+      it '他のユーザーのタスク編集ページへの遷移ができないこと' do
         login_as(user_another)
         visit edit_task_path(task)
         expect(page).to have_content 'Forbidden access.'
