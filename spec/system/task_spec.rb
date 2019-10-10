@@ -21,9 +21,10 @@ RSpec.describe 'Users', type: :system do
       end
       it 'ログインした状態でタスクの編集できる' do
         visit edit_task_path(task_created)
-        fill_in 'task_title', with: 'title updated'
+        fill_in 'task_title', with: 'title_updated'
         click_button 'Update Task'
         expect(page).to have_content 'Task was successfully updated.'
+        expect(page).to have_content 'title_updated'
       end
       it 'ログインした状態でタスクの削除できる' do
         visit tasks_path
