@@ -31,6 +31,7 @@ RSpec.describe 'Users', type: :system do
         click_on 'Destroy'
         page.driver.browser.switch_to.alert.accept
         expect(page).to have_content 'Task was successfully destroyed.'
+        expect{Task.find(task_created.id)}.to raise_exception(ActiveRecord::RecordNotFound)
       end
     end
     context '異常系' do
