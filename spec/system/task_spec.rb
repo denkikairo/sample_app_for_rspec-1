@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Users', type: :system do
+RSpec.describe 'Tasks', type: :system do
   describe 'タスクの新規作成、編集、削除' do
     context '正常系' do
       let(:user) { create(:user) }
