@@ -24,14 +24,14 @@ RSpec.describe 'Users', type: :system do
         fill_in 'user_email', with: 'example@gmail.com'
         fill_in 'user_password', with: 'password'
         fill_in 'user_password_confirmation', with: 'password'
-        click_button 'SignUp'
+        click_button 'Submit'
         expect(page).to have_content 'User was successfully created.'
       end
     end
     context '入力値が異常な状態' do
       it 'ユーザーの新規作成が失敗すること' do
         visit sign_up_path
-        click_button 'SignUp'
+        click_button 'Submit'
         expect(page).to have_content 'error'
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe 'Users', type: :system do
         fill_in 'user_email', with: 'updated@gmail.com'
         fill_in 'user_password', with: 'password'
         fill_in 'user_password_confirmation', with: 'password'
-        click_button 'SignUp'
+        click_button 'Submit'
         expect(page).to have_content 'User was successfully updated.'
         expect(page).to have_content 'updated@gmail.com'
       end
@@ -56,7 +56,7 @@ RSpec.describe 'Users', type: :system do
         fill_in 'user_email', with: ''
         fill_in 'user_password', with: 'password'
         fill_in 'user_password_confirmation', with: 'password'
-        click_button 'SignUp'
+        click_button 'Submit'
         expect(page).to have_content 'error'
       end
     end
