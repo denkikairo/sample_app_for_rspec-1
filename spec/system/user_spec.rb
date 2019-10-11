@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :system do
+  let(:user) { create(:user) }
   describe 'ログイン画面' do
     context '入力値が正常な状態' do
-      let(:user) { create(:user) }
       it 'ログインが成功すること' do
         login_as(user)
         expect(page).to have_content 'Login successful'
@@ -19,12 +19,11 @@ RSpec.describe 'Users', type: :system do
   end
   describe 'サインアップ画面' do
     context '入力値が正常な状態' do
-      let(:user) { build(:user) }
       it 'ユーザーの新規作成が成功すること' do
         visit sign_up_path
-        fill_in 'user_email', with: user.email
-        fill_in 'user_password', with: user.password
-        fill_in 'user_password_confirmation', with: user.password_confirmation
+        fill_in 'user_email', with: 'example@gmail.com'
+        fill_in 'user_password', with: 'password'
+        fill_in 'user_password_confirmation', with: 'password'
         click_button 'SignUp'
         expect(page).to have_content 'User was successfully created.'
       end
@@ -39,7 +38,6 @@ RSpec.describe 'Users', type: :system do
   end
   describe 'ユーザー編集画面' do
     context '入力値が正常な状態' do
-      let(:user) { create(:user) }
       it 'ユーザーの編集ができること' do
         login_as(user)
         visit edit_user_path(user)
@@ -52,7 +50,6 @@ RSpec.describe 'Users', type: :system do
       end
     end
     context '入力値が異常な状態' do
-      let(:user) { create(:user) }
       it 'ユーザーの編集ができるないこと' do
         login_as(user)
         visit edit_user_path(user)
