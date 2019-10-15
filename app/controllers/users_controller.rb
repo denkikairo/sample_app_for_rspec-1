@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
   skip_before_action :require_login, only: %i[new create]
+  before_action :forbid_invalid_access, only: %i[edit update destroy]
 
   def index
     @users = User.all
@@ -43,5 +44,15 @@ class UsersController < ApplicationController
         :password,
         :password_confirmation
     )
+  end
+
+  def forbid_invalid_access
+    return if correct_user?
+
+    redirect_to current_user, alert: 'Forbidden access.'
+  end
+
+  def correct_user?
+    @user == current_user
   end
 end
