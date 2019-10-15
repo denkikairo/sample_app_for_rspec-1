@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :system do
+
   let(:user) { create(:user) }
   let(:user_another) { create(:user, email: 'another@gmail.com') }
   describe 'ログイン画面' do

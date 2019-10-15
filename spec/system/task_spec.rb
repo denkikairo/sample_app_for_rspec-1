@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Tasks', type: :system do
+
   let(:user) { create(:user) }
   let(:user_another) { create(:user, email: 'another@gmail.com') }
   let(:task){ create(:task, user_id: user.id) }
