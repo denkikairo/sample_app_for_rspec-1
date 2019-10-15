@@ -62,8 +62,8 @@ RSpec.describe 'Users', type: :system do
         expect(page).to have_content 'updated@gmail.com'
       end
     end
-    context '入力値が異常な状態' do
-      it 'ユーザーの編集ができないこと(未入力)' do
+    context '入力値が異常な状態(未入力)' do
+      it 'ユーザーの編集ができないこと' do
         login_as(user)
         visit edit_user_path(user)
         fill_in 'user_email', with: ''
@@ -73,8 +73,8 @@ RSpec.describe 'Users', type: :system do
         expect(page).to have_content 'error'
       end
     end
-    context '入力値が異常な状態' do
-      it 'ユーザーの編集ができないこと(登録済みアドレス使用)' do
+    context '入力値が異常な状態(登録済みアドレス使用)' do
+      it 'ユーザーの編集ができないこと' do
         login_as(user)
         visit edit_user_path(user)
         user_another
@@ -83,6 +83,13 @@ RSpec.describe 'Users', type: :system do
         fill_in 'user_password_confirmation', with: 'password'
         click_button 'Submit'
         expect(page).to have_content 'Email has already been taken'
+      end
+    end
+    context '異常系：他のユーザーのページにアクセス' do
+      it '編集画面に遷移できない' do
+        login_as(user)
+        visit edit_user_path(user_another)
+        expect(page).to have_content 'Forbidden access.'
       end
     end
   end
