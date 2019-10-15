@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :system do
   let(:user) { create(:user) }
+  let(:user_another) { create(:user, email: 'another@gmail.com') }
   describe 'ログイン画面' do
     context '入力値が正常な状態' do
       it 'ログインが成功すること' do
@@ -28,11 +29,22 @@ RSpec.describe 'Users', type: :system do
         expect(page).to have_content 'User was successfully created.'
       end
     end
-    context '入力値が異常な状態' do
+    context '入力値が異常な状態(未入力)' do
       it 'ユーザーの新規作成が失敗すること' do
         visit sign_up_path
         click_button 'Submit'
         expect(page).to have_content 'error'
+      end
+    end
+    context '入力値が異常な状態(登録済みアドレス使用)' do
+      it 'ユーザーの新規作成が失敗すること' do
+        visit sign_up_path
+        user
+        fill_in 'user_email', with: 'example@gmail.com'
+        fill_in 'user_password', with: 'password'
+        fill_in 'user_password_confirmation', with: 'password'
+        click_button 'Submit'
+        expect(page).to have_content 'Email has already been taken'
       end
     end
   end
@@ -50,7 +62,7 @@ RSpec.describe 'Users', type: :system do
       end
     end
     context '入力値が異常な状態' do
-      it 'ユーザーの編集ができるないこと' do
+      it 'ユーザーの編集ができないこと(未入力)' do
         login_as(user)
         visit edit_user_path(user)
         fill_in 'user_email', with: ''
@@ -58,6 +70,18 @@ RSpec.describe 'Users', type: :system do
         fill_in 'user_password_confirmation', with: 'password'
         click_button 'Submit'
         expect(page).to have_content 'error'
+      end
+    end
+    context '入力値が異常な状態' do
+      it 'ユーザーの編集ができないこと(登録済みアドレス使用)' do
+        login_as(user)
+        visit edit_user_path(user)
+        user_another
+        fill_in 'user_email', with: 'another@gmail.com'
+        fill_in 'user_password', with: 'password'
+        fill_in 'user_password_confirmation', with: 'password'
+        click_button 'Submit'
+        expect(page).to have_content 'Email has already been taken'
       end
     end
   end
